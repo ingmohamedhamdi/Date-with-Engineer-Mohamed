@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محمد وأحلام 🌹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    background: #fff9fb;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .page {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 30px rgba(212,83,126,0.08);
+  }
+
+  /* ===== QUESTION SECTION ===== */
+  .question-section { text-align: center; margin-bottom: 2rem; }
+  .q-rose { font-size: 56px; display: block; margin-bottom: 1rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+  .q-title { font-size: 26px; font-weight: 700; color: #D4537E; margin-bottom: 0.5rem; line-height: 1.5; }
+  .q-name { color: #993556; }
+  .q-sub { font-size: 15px; color: #888; margin-bottom: 1.75rem; }
+  .q-poem { background: #FBEAF0; border: 1px solid #F4C0D1; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.75rem; }
+  .q-poem-line { font-size: 18px; color: #993556; line-height: 2.1; }
+  .q-poet { font-size: 12px; color: #D4537E; margin-top: 6px; }
+  .q-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-yes {
+    flex: 1; min-width: 130px; padding: 14px 20px;
+    font-size: 20px; font-weight: 700;
+    background: #D4537E; color: #fff;
+    border: none; border-radius: 14px; cursor: pointer;
+    font-family: 'Amiri', serif; transition: all 0.2s;
+  }
+  .btn-yes:hover { background: #c0446e; transform: scale(1.04); }
+  .btn-no {
+    flex: 1; min-width: 130px; padding: 14px 20px;
+    font-size: 20px; font-weight: 700;
+    background: #fff; color: #888;
+    border: 1px solid #ddd; border-radius: 14px; cursor: pointer;
+    font-family: 'Amiri', serif; transition: all 0.2s;
+    position: relative;
+  }
+  .btn-no:hover { background: #fafafa; }
+
+  /* no button runs away on hover */
+  .btn-no.runaway { transition: top 0.1s, left 0.1s; position: fixed; }
+
+  .no-msg {
+    display: none; margin-top: 1.25rem;
+    font-size: 16px; color: #D4537E;
+    background: #FBEAF0; border-radius: 12px; padding: 0.75rem 1rem;
+  }
+  .no-msg.visible { display: block; }
+
+  /* ===== CALENDAR SECTION (hidden until yes) ===== */
+  .calendar-section { display: none; }
+  .calendar-section.visible { display: block; }
+
+  .yes-banner {
+    text-align: center; background: #FBEAF0;
+    border: 1px solid #F4C0D1; border-radius: 16px;
+    padding: 1.25rem; margin-bottom: 1.75rem;
+  }
+  .yes-banner-text { font-size: 22px; font-weight: 700; color: #D4537E; margin-bottom: 0.25rem; }
+  .yes-banner-sub { font-size: 15px; color: #993556; }
+
+  .header { text-align: center; margin-bottom: 1.25rem; }
+  .names { font-size: 26px; font-weight: 700; color: #D4537E; margin-bottom: 0.2rem; }
+  .sub { font-size: 15px; color: #888; }
+
+  .poem-banner {
+    background: #FBEAF0; border: 1px solid #F4C0D1;
+    border-radius: 16px; padding: 1.25rem 1.5rem;
+    text-align: center; margin-bottom: 1.5rem;
+  }
+  .poem-line { font-size: 19px; color: #993556; line-height: 2.2; }
+  .poet { font-size: 13px; color: #D4537E; margin-top: 6px; }
+
+  .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .cal-month { font-size: 20px; font-weight: 700; color: #333; }
+  .nav-btn {
+    background: #f5f5f5; border: 1px solid #eee;
+    border-radius: 10px; padding: 6px 16px; cursor: pointer;
+    font-size: 20px; color: #555;
+  }
+  .nav-btn:hover { background: #FBEAF0; border-color: #F4C0D1; }
+
+  .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 1rem; }
+  .cal-header { text-align: center; font-size: 12px; color: #999; padding: 6px 0; font-weight: 700; }
+  .cal-day {
+    text-align: center; padding: 10px 4px; border-radius: 10px; cursor: pointer;
+    font-size: 16px; color: #333; border: 1px solid transparent; transition: all 0.15s;
+  }
+  .cal-day:hover { background: #FBEAF0; border-color: #F4C0D1; }
+  .cal-day.empty { cursor: default; }
+  .cal-day.empty:hover { background: transparent; border-color: transparent; }
+  .cal-day.today { font-weight: 700; color: #D4537E; border-color: #F4C0D1; }
+  .cal-day.selected { background: #D4537E; color: #fff; border-color: #D4537E; font-weight: 700; }
+  .cal-day.past { color: #ccc; cursor: default; }
+  .cal-day.past:hover { background: transparent; border-color: transparent; }
+
+  .selected-info { text-align: center; font-size: 16px; color: #993556; margin: 0.75rem 0; min-height: 26px; }
+
+  .place-section {
+    background: #fafafa; border: 1px solid #eee;
+    border-radius: 14px; padding: 1.25rem; margin-bottom: 1.25rem;
+  }
+  .form-label { font-size: 15px; color: #666; margin-bottom: 8px; display: block; }
+  input[type="text"] {
+    width: 100%; direction: rtl; font-family: 'Amiri', serif; font-size: 15px;
+    padding: 10px 14px; border: 1px solid #ddd;
+    border-radius: 10px; background: #fff; color: #333;
+  }
+  input[type="text"]:focus { outline: none; border-color: #F4C0D1; }
+
+  .btn-confirm {
+    width: 100%; padding: 14px; font-size: 19px; font-weight: 700;
+    background: #D4537E; color: #fff; border: none;
+    border-radius: 14px; cursor: pointer;
+    font-family: 'Amiri', serif; margin-bottom: 1.5rem;
+  }
+  .btn-confirm:hover { background: #c0446e; }
+  .btn-confirm:active { transform: scale(0.98); }
+  .btn-confirm:disabled { background: #ddd; color: #aaa; cursor: not-allowed; }
+
+  .result-card { display: none; background: #fff; border: 2px solid #D4537E; border-radius: 18px; padding: 2rem; text-align: center; }
+  .result-card.visible { display: block; }
+  .res-top { font-size: 17px; color: #aaa; margin-bottom: 0.75rem; }
+  .res-names { font-size: 26px; font-weight: 700; color: #D4537E; margin-bottom: 1rem; }
+  .res-poem { font-size: 21px; color: #993556; line-height: 2.2; margin-bottom: 0.25rem; }
+  .res-poet { font-size: 12px; color: #aaa; margin-bottom: 1.25rem; }
+  .res-divider { border: none; border-top: 1px solid #F4C0D1; margin: 1rem 0; }
+  .res-label { font-size: 14px; color: #888; margin-bottom: 4px; }
+  .res-date { font-size: 22px; font-weight: 700; color: #333; margin-bottom: 4px; }
+  .res-place { font-size: 17px; color: #D4537E; margin-bottom: 1.25rem; }
+  .res-msg { font-size: 16px; color: #444; line-height: 2; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== QUESTION ===== -->
+  <div class="question-section" id="question-section">
+    <span class="q-rose">🌹</span>
+    <p class="q-title">أحلام،<br>هل تقبلين أن تخرجي معي في موعد؟ 💗</p>
+    <p class="q-sub">لديّ ما أقوله لكِ...</p>
+    <div class="q-poem">
+      <div class="q-poem-line">
+        أُحِبُّكِ أكثَرَ مِمَّا يَستَطيعُ الكَلامُ<br>
+        وَأَجمَلُ ما فيكِ أَنَّكِ لا تَعلَمِينَ
+      </div>
+      <div class="q-poet">— نزار قباني</div>
+    </div>
+    <div class="q-buttons">
+      <button class="btn-yes" onclick="sayYes()">نعم، أقبل 💗</button>
+      <button class="btn-no" id="btn-no" onmouseover="runAway()" onclick="noClick()">لا 😔</button>
+    </div>
+    <div class="no-msg" id="no-msg">😢 الزر لا يريد أن تضغطيه... حاولي مرة أخرى!</div>
+  </div>
+
+  <!-- ===== CALENDAR (shown after yes) ===== -->
+  <div class="calendar-section" id="calendar-section">
+
+    <div class="yes-banner">
+      <div class="yes-banner-text">🎉 قلتِ نعم! أنتِ تُسعدينني 💗</div>
+      <div class="yes-banner-sub">الآن اختاري التاريخ الذي يناسبك</div>
+    </div>
+
+    <div class="header">
+      <p class="names">محمد & أحلام</p>
+      <p class="sub">أحلام، اختاري الموعد الذي يناسبك 💗</p>
+    </div>
+
+    <div class="poem-banner">
+      <div class="poem-line">
+        أُريدُكِ أَن تَكوني مَعي<br>
+        كَما الأَغنِيةُ تَبقى مَعَ الصَّوتِ
+      </div>
+      <div class="poet">— من وحي قيس وليلى</div>
+    </div>
+
+    <div class="cal-nav">
+      <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+      <span class="cal-month" id="cal-title"></span>
+      <button class="nav-btn" onclick="changeMonth(1)">›</button>
+    </div>
+
+    <div class="cal-grid" id="cal-grid">
+      <div class="cal-header">الأحد</div>
+      <div class="cal-header">الاثنين</div>
+      <div class="cal-header">الثلاثاء</div>
+      <div class="cal-header">الأربعاء</div>
+      <div class="cal-header">الخميس</div>
+      <div class="cal-header">الجمعة</div>
+      <div class="cal-header">السبت</div>
+    </div>
+
+    <div class="selected-info" id="selected-info">لم يتم اختيار موعد بعد</div>
+
+    <div class="place-section">
+      <label class="form-label">📍 المكان المقترح</label>
+      <input type="text" id="place-input" placeholder="مثال: مقهى الحنين، حديقة البلفيدير..." />
+    </div>
+
+    <button class="btn-confirm" id="btn-confirm" onclick="doConfirm()" disabled>💌 تأكيد الموعد</button>
+
+    <div class="result-card" id="result">
+      <div class="res-top">﷽</div>
+      <div class="res-names">محمد 🌹 أحلام</div>
+      <div class="res-poem">
+        لَيتَ الزَّمانَ يَقِفُ عِندَ هذا اللِّقاءِ<br>
+        وَتَبقى الأَيّامُ حُلمًا بِلا انقِضاءِ
+      </div>
+      <div class="res-poet">— من وحي نزار قباني</div>
+      <hr class="res-divider">
+      <div class="res-label">موعدنا</div>
+      <div class="res-date" id="res-date"></div>
+      <div class="res-place" id="res-place"></div>
+      <hr class="res-divider">
+      <div class="res-msg">
+        أحلام،<br>
+        كلّ لحظة في رفقتك تستحق أن تُكتب بماء الذهب.<br>
+        أتشوّق لهذا اللقاء بكلّ ذرّة من قلبي.<br><br>
+        محمد 🌹
+      </div>
+    </div>
+
+  </div><!-- end calendar-section -->
+
+</div><!-- end page -->
+
+<script>
+/* ===== NO button runs away ===== */
+let noClicks = 0;
+function runAway() {
+  const btn = document.getElementById('btn-no');
+  const maxX = window.innerWidth - 160;
+  const maxY = window.innerHeight - 60;
+  const x = Math.floor(Math.random() * maxX);
+  const y = Math.floor(Math.random() * maxY);
+  btn.classList.add('runaway');
+  btn.style.left = x + 'px';
+  btn.style.top  = y + 'px';
+}
+function noClick() {
+  noClicks++;
+  document.getElementById('no-msg').classList.add('visible');
+}
+function sayYes() {
+  document.getElementById('question-section').style.display = 'none';
+  document.getElementById('calendar-section').classList.add('visible');
+  renderCalendar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ===== CALENDAR ===== */
+const arabicMonths = ['يناير','فبراير','مارس','أبريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const arabicDays   = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+const today = new Date(); today.setHours(0,0,0,0);
+let curYear = today.getFullYear();
+let curMonth = today.getMonth();
+let selectedDate = null;
+
+function renderCalendar() {
+  document.getElementById('cal-title').textContent = arabicMonths[curMonth] + ' ' + curYear;
+  const grid = document.getElementById('cal-grid');
+  grid.querySelectorAll('.cal-day').forEach(e => e.remove());
+
+  const firstDay    = new Date(curYear, curMonth, 1).getDay();
+  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dt = new Date(curYear, curMonth, d);
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    el.textContent = d;
+    if (dt < today) {
+      el.classList.add('past');
+    } else {
+      if (dt.getTime() === today.getTime()) el.classList.add('today');
+      if (selectedDate && dt.getTime() === selectedDate.getTime()) el.classList.add('selected');
+      el.onclick = () => selectDay(dt, el);
+    }
+    grid.appendChild(el);
+  }
+}
+
+function selectDay(dt, el) {
+  selectedDate = dt;
+  document.querySelectorAll('.cal-day.selected').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  const label = arabicDays[dt.getDay()] + ' ' + dt.getDate() + ' ' + arabicMonths[dt.getMonth()] + ' ' + dt.getFullYear();
+  document.getElementById('selected-info').textContent = '📅 ' + label;
+  document.getElementById('btn-confirm').disabled = false;
+}
+
+function changeMonth(dir) {
+  curMonth += dir;
+  if (curMonth > 11) { curMonth = 0; curYear++; }
+  if (curMonth < 0)  { curMonth = 11; curYear--; }
+  renderCalendar();
+}
+
+function doConfirm() {
+  if (!selectedDate) return;
+  const label = arabicDays[selectedDate.getDay()] + ' ' + selectedDate.getDate() + ' ' + arabicMonths[selectedDate.getMonth()] + ' ' + selectedDate.getFullYear();
+  const place = document.getElementById('place-input').value.trim() || 'المكان لم يُحدَّد بعد';
+  document.getElementById('res-date').textContent = label;
+  document.getElementById('res-place').textContent = '📍 ' + place;
+  const result = document.getElementById('result');
+  result.classList.add('visible');
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
